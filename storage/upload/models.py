@@ -14,6 +14,9 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	rank = models.CharField(max_length=2, choices=RANKS, default='Tr')
 
+	def __str__(self):
+		return self.rank
+
 
 class Files(models.Model):
 	path = models.CharField(max_length=255, blank=True)
