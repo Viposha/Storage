@@ -1,21 +1,30 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+Junior = 'Jr'
+Middle = 'Ml'
+Senior = 'Sr'
+RANKS = [
+	(Junior, 'Junior'),
+	(Middle, 'Middle'),
+	(Senior, 'Senior')
+]
 
 
 class Profile(models.Model):
-	Junior = 'Jr'
-	Middle = 'Ml'
-	Senior = 'Sr'
-	RANKS = [
-		(Junior, 'Junior'),
-		(Middle, 'Middle'),
-		(Senior, 'Senior')
-	]
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	rank = models.CharField(max_length=2, choices=RANKS, default='Tr')
 
 	def __str__(self):
 		return self.rank
+
+	@receiver(post_save, sender=User)
+	def update_user_profile(sender, instance, created, **kwargs):
+		if created:
+			Profile.objects.create(user=instance)
+		instance.profile.save()
 
 
 class Files(models.Model):
