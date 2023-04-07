@@ -2,5 +2,9 @@
 {% load static %}
 
 {% block content %}
-Login
+<form  method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-primary btn-block">Авторизація</button>
+</form>
 {% endblock %}

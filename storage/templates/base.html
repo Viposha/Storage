@@ -15,8 +15,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="{% url 'login' %}">Увійти</a>
-        <a class="nav-link" href="{% url 'register' %}">Реєстрація</a>
+          {% if request.user.is_authenticated %}
+             <div class="nav-link">Вітаю, {{user.username}}</div>
+             <a class="nav-link"  href="{% url 'logout' %}">Logout</a>
+          {% else %}
+            <a class="nav-link" href="{% url 'login' %}">Увійти</a>
+            <a class="nav-link" href="{% url 'register' %}">Реєстрація</a>
+          {% endif %}
       </div>
     </div>
   </div>

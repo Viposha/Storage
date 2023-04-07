@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from .models import News, Files
-from .forms import FilesForm, UserCreateForm
+from .forms import FilesForm, UserCreateForm, UserLoginForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 import time
 from django.contrib import messages
+from django.contrib.auth import login, logout
 
 
 def register(request):
@@ -16,8 +17,9 @@ def register(request):
 			user.refresh_from_db()
 			user.profile.rank = form.cleaned_data.get('rank')
 			user.save()
+			login(request, user)
 			messages.success(request, 'Ви зареєструвались!')
-			return redirect('login')
+			return redirect('upload')
 		else:
 			messages.error(request, 'Помилка реєстрації!')
 	else:
@@ -25,8 +27,21 @@ def register(request):
 	return render(request, 'upload/register.html', {'form': form})
 
 
-def login(request):
-	return render(request, 'upload/login.html')
+def user_login(request):
+	if request.method == 'POST':
+		form = UserLoginForm(data=request.POST)
+		if form.is_valid():
+			user = form.get_user()
+			login(request, user)
+			return redirect('upload')
+	else:
+		form = UserLoginForm()
+	return render(request, 'upload/login.html', {'form': form})
+
+
+def user_logout(request):
+	logout(request)
+	return redirect('login')
 
 
 class ViewNews(ListView):
