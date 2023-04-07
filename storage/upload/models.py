@@ -19,13 +19,13 @@ class Profile(models.Model):
 
 
 class Files(models.Model):
-	path = models.CharField(max_length=255, blank=True)
+	path = models.FileField(upload_to='files/')
 	size = models.IntegerField(blank=False)
 	uploaded_at = models.DateTimeField(auto_now_add=True)
-	username = models.ForeignKey(User, on_delete=models.PROTECT)
+	username = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, related_name='user')
 
 	def __str__(self):
-		return self.path
+		return 'self.path'
 
 	class Meta:
 		verbose_name = 'Файл'

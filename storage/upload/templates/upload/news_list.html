@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="d-grid gap-2">
-  <button class="btn btn-primary mt-sm-2" type="button">Завантажити</button>
+  <a href="{% url 'upload' %}"><button class="btn btn-primary mt-sm-2" type="button">Завантажити файл</button></a>
 </div>
 <div class="row">
 {% for item in news %}
