@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 
 class FilesForm(forms.ModelForm):
+    path = forms.FileField(label=None, widget=forms.FileInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Files
         fields = ('path',)
