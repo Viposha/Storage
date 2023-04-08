@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-Junior = 'Jr'
-Middle = 'Ml'
-Senior = 'Sr'
+Junior = 'Junior'
+Middle = 'Middle'
+Senior = 'Senior'
 RANKS = [
 	(Junior, 'Junior'),
 	(Middle, 'Middle'),
@@ -15,7 +15,7 @@ RANKS = [
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	rank = models.CharField(max_length=2, choices=RANKS, default='Tr')
+	rank = models.CharField(max_length=10, choices=RANKS, default='Junior')
 
 	def __str__(self):
 		return self.rank

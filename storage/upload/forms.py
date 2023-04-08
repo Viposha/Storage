@@ -16,7 +16,7 @@ class ChangeRankForm(forms.ModelForm):
 
 
 class FilesForm(forms.ModelForm):
-    path = forms.FileField(label=None, widget=forms.FileInput(attrs={'class': 'form-control'}))
+    path = forms.FileField(label='Завантажте файл', widget=forms.FileInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Files
@@ -27,19 +27,29 @@ class FilesForm(forms.ModelForm):
         super(FilesForm, self).__init__(*args, **kwargs)
 
     def clean_path(self):
+
+        """ Валідація розміру та типу файлу залежно від тарифу користувача"""
+
         size = self.cleaned_data['path'].size
-        if self.user.profile.rank == 'Jr' and size > 1048576:
+        name = str(self.cleaned_data['path'])
+        file_extension = name.split('.')[-1].lower()
+
+        if self.user.profile.rank == 'Junior' and size > 1048576:
             raise ValidationError(
-                f'В вашому тарифі можливо загружати файли розміром менше 1 Мб.'
+                f'В вашому тарифі можливо загружати файли розміром менше 1 Мб. Змініть тариф'
                 f' Розмір Вашого файлу {bytes_to_mb(size)} Mb')
-        elif self.user.profile.rank == 'Ml' and size > 5242880:
+        elif self.user.profile.rank == 'Middle' and size > 5242880:
             raise ValidationError(
-                f'В вашому тарифі можливо загружати файли розміром менше 5 Мб.'
+                f'В вашому тарифі можливо загружати файли розміром менше 5 Мб. Змініть тариф'
                 f' Розмір Вашого файлу {bytes_to_mb(size)} Mb')
-        elif self.user.profile.rank == 'Sr' and size > 10485760:
+        elif self.user.profile.rank == 'Senior' and size > 10485760:
             raise ValidationError(
-                f'В вашому тарифі можливо загружати файли розміром менше 10 Мб.'
+                f'Максимальний розмір файлу 10 Мб.'
                 f' Розмір Вашого файлу {bytes_to_mb(size)} Mb')
+        elif self.user.profile.rank == 'Junior' and (file_extension not in ('jpeg', 'jpg')):
+            raise ValidationError('В вашому тарифі можливо загружати лише .jpg файли')
+        elif self.user.profile.rank != 'Junior' and file_extension not in ('jpg', 'jpeg', 'txt', 'pdf'):
+            raise ValidationError('На даному ресурсі можливо загружати лише файли типу jpeg, txt і pdf ')
         return size
 
 
