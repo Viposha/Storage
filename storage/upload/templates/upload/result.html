@@ -3,12 +3,12 @@
 
 {% block content %}
 
-<p>upload time: {{result}} sec</p>
-<p>upload date: {{date}}</p>
+<p>Час завантаження: {{result}} sec</p>
+<p>Дата завантаження: {{date}}</p>
+<p>Розмір фалу: {{size}} Mb</p>
+
 <p><a href="{{url}}" download>upload url:</a> </p>
 
-{% if url %}
-    <p>File uploaded at: <a href="{{ url }}" download>{{ url }}</a></p>
-{% endif %}
+
 
 {% endblock %}

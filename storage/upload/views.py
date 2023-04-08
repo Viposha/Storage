@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
-from .models import News, Files
+from .models import News, Files, Profile
 from .forms import FilesForm, UserCreateForm, UserLoginForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 import time
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from .utils import bytes_to_mb
 
 
 def register(request):
@@ -61,21 +62,22 @@ class ViewNews(ListView):
 def model_form_upload(request):
 	if request.method == 'POST':
 		start = time.perf_counter()
-		form = FilesForm(request.POST, request.FILES)
+		form = FilesForm(request.POST, request.FILES, user=request.user)
 		if form.is_valid():
 			file = request.FILES
 			fs = FileSystemStorage()
 			filename = fs.save(file["path"].name, file["path"])
 			uploaded_file_url = fs.url(filename)
 			size = file["path"].size
-			name = f'paths/{file["path"]}'
+			size_Mb = bytes_to_mb(size)  # convert bytes to Mb
+			name = f'{file["path"]}'
 			user_id = User.objects.get(pk=request.user.pk)
 			path = Files(path=name, size=size, username=user_id)
 			path.save()
 			end = time.perf_counter()
 			result = round((end - start), 3)
 			date = path.uploaded_at
-			return render(request, 'upload/result.html', {'result': result, 'date': date, 'url': uploaded_file_url})
+			return render(request, 'upload/result.html', {'result': result, 'date': date, 'url': uploaded_file_url, 'size': size_Mb})
 	else:
-		form = FilesForm()
+		form = FilesForm(user=request.user)
 	return render(request, 'upload/upload.html', {'form': form})
