@@ -7,59 +7,58 @@
     <title>{% block title %} {% endblock %}</title>
 </head>
 <body>
-<div class="container">
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'home' %}">Cloud Storage</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-      {% if request.user.is_authenticated %}
-      <div class="d-grid gap-2 ms-5">
-        <a href="{% url 'upload' %}"><button class="btn btn-primary mt-sm-2" type="button">Завантажити файл</button></a>
-      </div>
-      {% endif %}
-      {% if request.user.is_authenticated %}
-      <div class="d-grid gap-2 ms-5">
-        <a href="{% url 'change_rank' %}"><button class="btn btn-primary mt-sm-2" type="button">Змінити тариф</button></a>
-      </div>
-      {% endif %}
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ms-auto">
-           {% if user.profile.rank == 'Senior' %}
-                <a class="nav-link" href="{% url 'account' %}">Особистий кабінет</a>
-          {% endif %}
-          {% if request.user.is_authenticated %}
-          <div class="nav-link">Вітаю, {{user.username}} <br> Ваш тариф:<h3>{{user.profile.rank}}</h3></div>
-             <a class="nav-link"  href="{% url 'logout' %}">Logout</a>
-          {% else %}
-            <a class="nav-link" href="{% url 'login' %}">Увійти</a>
-            <a class="nav-link" href="{% url 'register' %}">Реєстрація</a>
-          {% endif %}
-      </div>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">Cloud Storage</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                {% if request.user.is_authenticated %}
+                    <div class="d-grid gap-2 ms-5">
+                        <a href="{% url 'upload' %}"><button class="btn btn-primary mt-sm-2" type="button">Завантажити файл</button></a>
+                    </div>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <div class="d-grid gap-2 ms-5">
+                        <a href="{% url 'change_rank' %}"><button class="btn btn-primary mt-sm-2" type="button">Змінити тариф</button></a>
+                    </div>
+                {% endif %}
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto">
+                {% if user.profile.rank == 'Senior' %}
+                    <a class="nav-link" href="{% url 'account' %}">Особистий кабінет</a>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <div class="nav-link">Вітаю, {{user.username}} <br> Ваш тариф:<h3>{{user.profile.rank}}</h3></div>
+                    <a class="nav-link"  href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a class="nav-link" href="{% url 'login' %}">Увійти</a>
+                    <a class="nav-link" href="{% url 'register' %}">Реєстрація</a>
+                {% endif %}
+                </div>
+                </div>
+            </div>
+        </nav>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                     <div class="alert alert-danger" role="'alert">
+                        {{message}}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{message.tags}}" role="'alert">
+                        {{message}}
+                    </div>
+                 {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+
+        {% endblock %}
+
     </div>
-  </div>
-</nav>
-
-{% if messages %}
-    {% for message in messages %}
-    {% if message.tags == 'error' %}
-    <div class="alert alert-danger" role="'alert">
-        {{message}}
-    </div>
-    {% else %}
-     <div class="alert alert-{{message.tags}}" role="'alert">
-        {{message}}
-    </div>
-    {% endif %}
-    {% endfor %}
-{% endif %}
-
-{% block content %}
-
-{% endblock %}
-</div>
-
 </body>
 </html>

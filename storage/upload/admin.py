@@ -16,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('username', 'email', 'get_rank')
 
     def get_rank(self, instance):
-	    return instance.profile.rank
+		return instance.profile.rank
 
     get_rank.short_description = 'Rank'
 
