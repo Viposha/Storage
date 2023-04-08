@@ -27,6 +27,9 @@
       {% endif %}
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
+           {% if user.profile.rank == 'Senior' %}
+                <a class="nav-link" href="{% url 'account' %}">Особистий кабінет</a>
+          {% endif %}
           {% if request.user.is_authenticated %}
           <div class="nav-link">Вітаю, {{user.username}} <br> Ваш тариф:<h3>{{user.profile.rank}}</h3></div>
              <a class="nav-link"  href="{% url 'logout' %}">Logout</a>

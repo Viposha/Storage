@@ -10,6 +10,21 @@ from django.contrib.auth import login, logout
 from .utils import bytes_to_mb
 
 
+class AccountView(ListView):
+	model = Files
+	template_name = 'upload/account_list.html'
+	context_object_name = 'files'
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['title'] = 'Аккаунт'
+		return context
+
+	def get_queryset(self):
+		print(Files.objects.filter(username=self.request.user.pk)[0])
+		return Files.objects.filter(username=self.request.user.pk)
+
+
 class ChangeRankView(FormView):
 	form_class = ChangeRankForm
 
