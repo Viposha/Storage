@@ -6,6 +6,15 @@ from django.core.exceptions import ValidationError
 from .utils import bytes_to_mb
 
 
+class ChangeRankForm(forms.ModelForm):
+    rank = forms.ChoiceField(label='Оберіть рівень доступу', choices=RANKS, widget=forms.Select(
+        attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ("rank",)
+
+
 class FilesForm(forms.ModelForm):
     path = forms.FileField(label=None, widget=forms.FileInput(attrs={'class': 'form-control'}))
 

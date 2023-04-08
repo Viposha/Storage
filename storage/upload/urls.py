@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ViewNews, model_form_upload, register, user_login, user_logout
+from .views import ViewNews, model_form_upload, register, user_login, user_logout, ChangeRankView
 
 urlpatterns = [
 	path('', ViewNews.as_view(), name='home'),
@@ -7,4 +7,5 @@ urlpatterns = [
 	path('register/', register, name='register'),
 	path('login/', user_login, name='login'),
 	path('logout/', user_logout, name='logout'),
+	path('change/', ChangeRankView.as_view(), name='change_rank')
 ]

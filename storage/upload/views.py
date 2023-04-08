@@ -1,13 +1,32 @@
-from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.shortcuts import render, redirect, reverse
+from django.views.generic import ListView, FormView
 from .models import News, Files, Profile
-from .forms import FilesForm, UserCreateForm, UserLoginForm
+from .forms import FilesForm, UserCreateForm, UserLoginForm, ChangeRankForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 import time
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from .utils import bytes_to_mb
+
+
+class ChangeRankView(FormView):
+	form_class = ChangeRankForm
+
+	template_name = "upload/change_rank_form.html"
+
+	def post(self, request, *args, **kwargs):
+		if request.method == 'POST':
+			form = ChangeRankForm(data=request.POST, instance=request.user)
+			if form.is_valid():
+				user = form.save()
+				user.refresh_from_db()
+				user.profile.rank = form.cleaned_data.get('rank')
+				user.save()
+				return redirect(reverse('home'))
+			else:
+				messages.error(request, 'Помилка. Перевірте дані')
+		return redirect(reverse('upload'))
 
 
 def register(request):
