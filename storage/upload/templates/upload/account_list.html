@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br>
+{% for item in files %}
+{{item.path}}--------------------------{{item.size}} bytes------------------------------{{item.uploaded_at}}</p>
+{% endfor %}
+
+{% endblock %}
