@@ -4,7 +4,7 @@
 {% block content %}
 <br>
 {% for item in files %}
-    {{item.path}}--------------------------{{item.size}} bytes------------------------------{{item.uploaded_at}}</p>
+<a href="/media/{{item.path}}" download>{{item.path}}</a>-------------------{{item.size}} bytes------------------------{{item.uploaded_at}}</p>
 {% endfor %}
 
 {% endblock %}
