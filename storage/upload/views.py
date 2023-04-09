@@ -17,11 +17,10 @@ class AccountView(ListView):
 
 	def get_context_data(self, *, object_list=None, **kwargs):
 		context = super().get_context_data(**kwargs)
-		context['title'] = 'Аккаунт'
+		context['title'] = 'Особистий кабінет'
 		return context
 
 	def get_queryset(self):
-		print(Files.objects.filter(username=self.request.user.pk)[0])
 		return Files.objects.filter(username=self.request.user.pk)
 
 
@@ -29,6 +28,11 @@ class ChangeRankView(FormView):
 	form_class = ChangeRankForm
 
 	template_name = "upload/change_rank_form.html"
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['title'] = 'Змінити тариф'
+		return context
 
 	def post(self, request, *args, **kwargs):
 		if request.method == 'POST':
@@ -59,7 +63,7 @@ def register(request):
 			messages.error(request, 'Помилка реєстрації!')
 	else:
 		form = UserCreateForm()
-	return render(request, 'upload/register.html', {'form': form})
+	return render(request, 'upload/register.html', {'form': form, 'title': 'Реєстрація'})
 
 
 def user_login(request):
@@ -71,7 +75,7 @@ def user_login(request):
 			return redirect('upload')
 	else:
 		form = UserLoginForm()
-	return render(request, 'upload/login.html', {'form': form})
+	return render(request, 'upload/login.html', {'form': form, 'title': 'Авторизація'})
 
 
 def user_logout(request):
@@ -114,4 +118,4 @@ def model_form_upload(request):
 			return render(request, 'upload/result.html', {'result': result, 'date': date, 'url': uploaded_file_url, 'size': size_Mb})
 	else:
 		form = FilesForm(user=request.user)
-	return render(request, 'upload/upload.html', {'form': form})
+	return render(request, 'upload/upload.html', {'form': form, 'title': 'Завантажити'})

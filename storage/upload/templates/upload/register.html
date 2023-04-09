@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}
+{{title}}
+{% endblock %}
+
 {% block content %}
+
+
 
 <form class="form-control mt-5" method="post">
 {% csrf_token %}
