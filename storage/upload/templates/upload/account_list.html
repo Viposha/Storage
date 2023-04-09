@@ -7,10 +7,18 @@
 
 
 {% block content %}
+<form method="POST">
+{% csrf_token %}
 <br>
 {% for item in files %}
+<label for="{{item.path}}">
+    <input class="form-check-input" type="checkbox" name="file" value="{{item.path}}"  id="{{item.path}}" >
+</label>
 <a href="/media/{{item.path}}" download>{{item.path}}</a>
 -------------------{{item.size}} bytes------------------------{{item.uploaded_at}}</p>
 {% endfor %}
+
+<button type="submit" onclick="return confirm('Ви впевнені?')" class="btn btn-primary btn-block">Видалити</button>
+</form>
 
 {% endblock %}

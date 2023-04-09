@@ -23,6 +23,14 @@ class AccountView(ListView):
 	def get_queryset(self):
 		return Files.objects.filter(username=self.request.user.pk)
 
+	def post(self, request, *args, **kwargs):
+		if request.method == 'POST':
+			picked_files = request.POST.getlist('file')
+			for file in picked_files:
+				file_instance = Files.objects.filter(path=file, username=self.request.user.pk)
+				file_instance.delete()
+			return redirect(reverse('account'))
+
 
 class ChangeRankView(FormView):
 	form_class = ChangeRankForm
