@@ -2,3 +2,5 @@
 venv/
 __pycache__/
 snippets.txt
+storage/storage/__pycache__/
+.gitignore
