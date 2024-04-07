@@ -4,3 +4,4 @@ __pycache__/
 snippets.txt
 storage/storage/__pycache__/
 .gitignore
+storage/db.sqlite3
