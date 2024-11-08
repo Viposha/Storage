@@ -2,7 +2,7 @@
 <a href="http://157.230.112.86:8000/">File Storage</a>
 </p>
 
-This is ligtweight version of file storage. The realization is available here http://143.198.70.58:8001/
+This is ligtweight version of file storage. The realization is available here http://157.230.112.86:8000/
 
 ![Screenshot_27](https://user-images.githubusercontent.com/93654788/230741496-c4fe1fc0-5b2d-44b2-8ef5-2157b6ac755f.jpg)
 
