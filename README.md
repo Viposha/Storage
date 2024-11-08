@@ -1,5 +1,5 @@
 <p align="center">
-<a href="http://143.198.70.58:8001/">File Storage</a>
+<a href="http://157.230.112.86:8000/">File Storage</a>
 </p>
 
 This is ligtweight version of file storage. The realization is available here http://143.198.70.58:8001/
